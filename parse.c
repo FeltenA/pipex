@@ -6,7 +6,7 @@
 /*   By: afelten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/10 12:31:07 by afelten           #+#    #+#             */
-/*   Updated: 2022/06/14 12:23:55 by afelten          ###   ########.fr       */
+/*   Updated: 2022/06/14 15:24:08 by afelten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ char	**add_slash(char **path)
 char	**get_path(char **envp)
 {
 	char	**path;
-	char	*save;
 	int		i;
 
 	i = 0;

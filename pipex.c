@@ -6,7 +6,7 @@
 /*   By: afelten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:54:35 by afelten           #+#    #+#             */
-/*   Updated: 2022/06/14 15:19:36 by afelten          ###   ########.fr       */
+/*   Updated: 2022/06/14 15:23:49 by afelten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	free_data(t_data *data)
 
 int	pipex(char **cmd, t_data *data)
 {
-	int		status;
 	pid_t	proc;
 	int		i;
 
