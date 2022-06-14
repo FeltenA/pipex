@@ -21,6 +21,7 @@ typedef struct s_data
 	int		nbcmd;
 	int		fd1;
 	int		fd2;
+	int		here_doc;
 }	t_data;
 
 #endif

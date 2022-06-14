@@ -22,6 +22,7 @@ char	**ft_split(char const *s, char c);
 char	**get_path(char **envp);
 void	child_proc(char *cmd, t_data *data, int id);
 void	free_split(char **split);
+int	open_files(int argc, char *argv[], t_data *data);
 
 void	close_pipes(t_data *data)
 {
@@ -34,6 +35,20 @@ void	close_pipes(t_data *data)
 		close(data->pipe[i]);
 }
 
+int	create_pipes(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nbcmd - 1)
+	{
+		if (pipe(data->pipe + 2 * i) < 0)
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
 void	free_data(t_data *data)
 {
 	free_split(data->path);
@@ -41,6 +56,8 @@ void	free_data(t_data *data)
 	free(data->pipe);
 	close(data->fd1);
 	close(data->fd2);
+	if (data->here_doc)
+		unlink(".infile_tmp");
 }
 
 int	pipex(char **cmd, t_data *data)
@@ -60,34 +77,6 @@ int	pipex(char **cmd, t_data *data)
 	close_pipes(data);
 	waitpid(-1, 0, 0);
 	return (1);
-}
-
-int	create_pipes(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nbcmd - 1)
-	{
-		if (pipe(data->pipe + 2 * i) < 0)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-int	open_files(int argc, char *argv[], t_data *data)
-{
-	if (data->here_doc)
-		data->fd2 = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else
-		data->fd2 = open(argv[argc - 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (data->fd2 < 0)
-		return (0);
-	if (data->here_doc)
-		here_doc_infile(data);
-	else
-		data->fd1 = open(argv[1], O_RDONLY);
 }
 
 int	main(int argc, char *argv[], char **envp)
