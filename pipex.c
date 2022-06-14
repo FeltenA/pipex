@@ -6,7 +6,7 @@
 /*   By: afelten <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/09 12:54:35 by afelten           #+#    #+#             */
-/*   Updated: 2022/06/14 15:23:49 by afelten          ###   ########.fr       */
+/*   Updated: 2022/06/14 15:56:10 by afelten          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,32 @@ int	create_pipes(t_data *data)
 	return (1);
 }
 
+int	open_files(int argc, char *argv[], t_data *data)
+{
+	if (data->here_doc)
+		data->fd2 = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	else
+		data->fd2 = open(argv[argc - 1], O_CREAT | O_WRONLY | O_APPEND, 0644);
+	if (data->fd2 < 0)
+		return (0);
+	if (data->here_doc)
+		here_doc_infile(data);
+	else
+		data->fd1 = open(argv[1], O_RDONLY);
+}
+
 int	main(int argc, char *argv[], char **envp)
 {
 	t_data	data;
 
 	if (argc < 5)
 		return (1);
+	if (ft_strcmp(argv[1], "here_doc"))
+		data->here_doc = 1;
+	else
+		data->here_doc = 0;
 	data.fd1 = open(argv[1], O_RDONLY);
-	data.fd2 = open(argv[argc - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
+	data.fd2 = open(argv[argc - 1], O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (data.fd1 < 0 || data.fd2 < 0)
 		return (1);
 	data.envp = envp;
