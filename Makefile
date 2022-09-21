@@ -9,7 +9,20 @@ SRCS	=	pipex.c\
 			error.c\
 			free.c
 
+SRCSB	=	pipex_bonus.c\
+			child.c\
+			ft_split.c\
+			str_utils.c\
+			files.c\
+			parse.c\
+			get_next_line.c\
+			get_next_line_utils.c\
+			error.c\
+			free.c
+
 OBJS	= ${SRCS:.c=.o}
+
+OBJSB	= ${SRCSB:.c=.o}
 
 HEAD	= includes
 
@@ -35,8 +48,10 @@ clean:
 fclean:		clean
 		${RM} ${NAME}
 
-re:		fclean all
+re:			fclean
+		make all
 
-bonus:		${NAME}
+bonus:		${OBJSB}
+		${GCC} ${CFLAGS} ${OBJSB} -o ${NAME}
 
 .PHONY:		all clean fclean re bonus

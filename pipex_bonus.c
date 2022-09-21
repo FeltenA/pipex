@@ -82,13 +82,16 @@ int	main(int argc, char *argv[], char **envp)
 
 	if (!envp[0])
 		err_msg_exit("Environment variable not present\n");
-	if (argc != 5)
-		err_msg_exit("Incorrect number of arguments\n");
-	data.here_doc = 0;
+	if (argc < 5)
+		err_msg_exit("Not enough arguments\n");
+	if (!ft_strcmp(argv[1], "here_doc"))
+		data.here_doc = 1;
+	else
+		data.here_doc = 0;
 	open_files(argc, argv, &data);
 	data.envp = envp;
 	data.path = get_path(envp);
-	data.nbcmd = argc - 3;
+	data.nbcmd = argc - 3 - data.here_doc;
 	data.pipe = malloc(sizeof(int) * (data.nbcmd - 1) * 2);
 	if (!data.pipe || !create_pipes(&data))
 		free_data_err_p(&data);
